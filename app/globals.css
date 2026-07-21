@@ -1,0 +1,340 @@
+@import 'tailwindcss';
+
+@plugin "@tailwindcss/container-queries";
+@plugin "@tailwindcss/typography";
+
+:root {
+  /* === Maison — Luxury monochrome + gold accent === */
+  --paper:      #FAFAF8; /* page bg (off-white cálido) */
+  --white:      #FFFFFF; /* card surface */
+  --gray-50:    #F4F4F2; /* section banding, hover fills */
+  --gray-200:   #E5E4E1; /* hairline borders, dividers */
+  --gray-400:   #A3A29E; /* inactive dots, muted text */
+  --gray-600:   #6B6A66; /* secondary text (AA sobre paper) */
+  --gray-800:   #2A2A28; /* hover-darken de ink */
+  --ink:        #1A1A18; /* near-black body + headings (~15:1 sobre paper) */
+  --black:      #0A0A0A; /* max-contrast (footer bg) */
+  --gold:       #B08D57; /* UN solo accent, solo CTA/active */
+
+  /* Aliases semánticos (compatibilidad con tokens anteriores) */
+  --background: var(--paper);
+  --foreground: var(--ink);
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--gray-200);
+  }
+
+  html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-moderat), system-ui, -apple-system, sans-serif;
+  }
+
+  /* Smooth scroll para navegadores que no soportan scroll-behavior */
+  @supports not (scroll-behavior: smooth) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* Respetar preferencia de movimiento reducido */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@supports (font: -apple-system-body) and (-webkit-appearance: none) {
+  img[loading='lazy'] {
+    clip-path: inset(0.6px);
+  }
+}
+
+/* Títulos - Belleza (serif display) */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-belleza), Georgia, serif;
+  font-weight: 400;
+}
+
+a,
+input,
+button {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ink)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--paper)];
+}
+
+/* Font utilities — now resolve correctly thanks to next/font en layout.tsx */
+.font-belleza {
+  font-family: var(--font-belleza), Georgia, serif;
+}
+
+.font-moderat {
+  font-family: var(--font-moderat), system-ui, sans-serif;
+}
+
+/* ============================================================================
+   ANIMATIONS (color-agnostic)
+   ============================================================================ */
+
+/* Skeleton shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Toast slide-in bounce animation */
+@keyframes slideInBounce {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(-10px);
+    opacity: 1;
+  }
+  80% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Fade in animation for accordion content */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Image hover effects — soft luxury (sin brightness filter) */
+.image-hover-zoom {
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.image-hover-zoom:hover {
+  transform: scale(1.04);
+}
+
+/* Product card — lift sutil */
+.product-card {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-2px);
+}
+
+.product-card:active {
+  transform: translateY(0);
+}
+
+/* Search dropdown animation */
+@keyframes slideDownFade {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideDownFade {
+  animation: slideDownFade 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Mobile menu stagger animation */
+@keyframes fadeInStagger {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ============================================================================
+   CUSTOM SCROLLBAR
+   ============================================================================ */
+
+.scrollbar-thin::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--gray-200);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-400);
+}
+
+/* Scrollbar oscura para modal */
+.scrollbar-thumb-white\/30::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.scrollbar-thumb-white\/30::-webkit-scrollbar-thumb:hover,
+.hover\:scrollbar-thumb-white\/50:hover::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Firefox scrollbar */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-200) transparent;
+}
+
+.scrollbar-thin:hover {
+  scrollbar-color: var(--gray-400) transparent;
+}
+
+.scrollbar-thumb-white\/30 {
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+.scrollbar-thumb-white\/30:hover,
+.hover\:scrollbar-thumb-white\/50:hover {
+  scrollbar-color: rgba(255, 255, 255, 0.5) transparent;
+}
+
+/* ============================================================================
+   ACCESSIBILITY — WCAG 2.1 AA
+   ============================================================================ */
+
+/* Skip Links para navegación por teclado */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--ink);
+  color: var(--white);
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 100;
+  border-radius: 0 0 4px 0;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Focus visible — alto contraste */
+*:focus-visible {
+  outline: 2px solid var(--ink) !important;
+  outline-offset: 2px !important;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--ink) !important;
+  outline-offset: 2px !important;
+}
+
+/* Mejorar contraste de gray-400 a gray-600 (AA) */
+.text-gray-400 {
+  color: var(--gray-600);
+}
+
+.text-gray-400:hover {
+  color: var(--gray-800);
+}
+
+a:focus,
+button:focus {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* sr-only utilities */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+.icon-decorative {
+  aria-hidden: 'true';
+}
+
+/* Focus en inputs con alto contraste */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--ink) !important;
+  outline-offset: 1px !important;
+  border-color: var(--ink) !important;
+  box-shadow: 0 0 0 3px rgba(26, 26, 24, 0.1) !important;
+}
