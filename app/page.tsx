@@ -3,7 +3,27 @@ import Link from 'next/link';
 import { WooNavbar } from '@/components/layout/navbar/woo-navbar';
 import FooterCustom from '@/components/custom/FooterCustom';
 import FeaturedProducts from '@/components/custom/FeaturedProducts';
+import SplashScreen from '@/components/custom/SplashScreen';
 import { getProducts, getCollections } from '@/lib/woocommerce';
+
+/**
+ * Fuentes de tráfico de redes sociales que disparan el splash.
+ * El link `maison.com.co?utm_source=ig` (Instagram) llega a esta vista.
+ */
+const SOCIAL_UTM_SOURCES = new Set([
+  'ig',
+  'instagram',
+  'tiktok',
+  'facebook',
+  'fb',
+  'x',
+  'twitter',
+  'threads',
+  'youtube',
+  'yt',
+  'pinterest',
+  'pin',
+]);
 
 // Helper: limpia el HTML que WooCommerce devuelve en price/regularPrice
 function cleanHtmlPrice(raw: string | null | undefined): string {
@@ -17,7 +37,19 @@ function cleanHtmlPrice(raw: string | null | undefined): string {
 
 export const revalidate = 300; // 5 minutos
 
-export default async function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  // Detectar si el tráfico viene de redes sociales (utm_source).
+  // Si sí → splash screen de marca antes del sitio principal.
+  const params = await searchParams;
+  const utmSource = typeof params.utm_source === 'string' ? params.utm_source.toLowerCase() : '';
+  if (utmSource && SOCIAL_UTM_SOURCES.has(utmSource)) {
+    return <SplashScreen />;
+  }
+
   // Traer productos destacados desde WooCommerce
   let featured: {
     id: string;
