@@ -4,6 +4,7 @@ import { WooNavbar } from '@/components/layout/navbar/woo-navbar';
 import FooterCustom from '@/components/custom/FooterCustom';
 import FeaturedProducts from '@/components/custom/FeaturedProducts';
 import SplashScreen from '@/components/custom/SplashScreen';
+import HeaderBanner from '@/components/custom/HeaderBanner';
 import { getProducts, getCollections } from '@/lib/woocommerce';
 
 /**
@@ -98,12 +99,12 @@ export default async function HomePage({
   return (
     <>
       <WooNavbar />
-      <main id="main-content" className="min-h-screen bg-[var(--paper)] pt-24">
+      <main id="main-content" className="min-h-screen bg-transparent pt-[112px]">
 
         {/* ============ HERO — split 50/50 (server component) ============ */}
         {heroProduct && (
           <section className="grid grid-cols-1 lg:grid-cols-2 min-h-[80vh]">
-            <div className="relative aspect-[4/5] lg:aspect-auto lg:min-h-[80vh] bg-[var(--gray-50)]">
+            <div className="relative aspect-[4/5] lg:aspect-auto lg:min-h-[80vh] bg-transparent">
               {heroProduct.imageSrc && (
                 <Image
                   src={heroProduct.imageSrc}
@@ -135,6 +136,9 @@ export default async function HomePage({
             </div>
           </section>
         )}
+
+        {/* ============ HEADER BANNER — cover de video (entre Hero y Colecciones) ============ */}
+        <HeaderBanner />
 
         {/* ============ COLECCIONES — grid 2/3 col ============ */}
         {featuredCategories.length > 0 && (

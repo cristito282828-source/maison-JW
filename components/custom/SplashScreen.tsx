@@ -63,15 +63,15 @@ export default function SplashScreen() {
       {/* ============ CONTENIDO PRINCIPAL ============ */}
       <div className="relative w-full max-w-xl text-center">
 
-        {/* Logo sutil */}
+        {/* Logo — invertido para que se vea oscuro sobre fondo paper */}
         <div className="flex justify-center mb-10 md:mb-14">
-          <div className="relative w-14 h-14 md:w-16 md:h-16 opacity-70">
+          <div className="relative w-32 h-32 md:w-40 md:h-40">
             <Image
-              src="/logo-maison.jpg"
+              src="/logo-maison.png"
               alt="Maison"
-              width={64}
-              height={64}
-              className="h-full w-full object-contain grayscale"
+              width={160}
+              height={160}
+              className="h-full w-full object-contain invert"
               priority
             />
           </div>

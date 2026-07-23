@@ -2,16 +2,11 @@
 
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
-import { Bars3Icon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { CategoryDropdown } from './category-dropdown';
 import { CartIcon } from '@/components/cart/CartIcon';
-
-/**
- * NAVBAR CLIENT COMPONENT - WooCommerce
- * Maneja toda la interactividad: mobile menu, búsqueda, etc.
- */
 
 interface Category {
   title: string;
@@ -20,7 +15,6 @@ interface Category {
 
 interface WooNavbarClientProps {
   categories: Category[];
-  SITE_NAME: string;
 }
 
 // Mobile Menu Button
@@ -29,14 +23,14 @@ function MobileMenuButton({ onClick }: { onClick: () => void }) {
     <button
       onClick={onClick}
       aria-label="Open mobile menu"
-      className="flex h-11 w-11 items-center justify-center rounded-md border border-gray-700 text-white hover:bg-gray-800 transition-colors md:hidden"
+      className="flex h-10 w-10 items-center justify-center text-[var(--ink)] hover:text-[var(--gold)] transition-colors md:hidden"
     >
       <Bars3Icon className="h-6 w-6" />
     </button>
   );
 }
 
-// Search Component
+// Search Component (mantengo igual)
 function WooSearch() {
   const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState<any[]>([]);
@@ -45,7 +39,6 @@ function WooSearch() {
   const searchRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  // Cerrar resultados al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
@@ -57,7 +50,6 @@ function WooSearch() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Búsqueda con debouncing
   useEffect(() => {
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
@@ -110,11 +102,11 @@ function WooSearch() {
           onFocus={() => {
             if (results.length > 0) setShowResults(true);
           }}
-          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 pr-10 text-sm text-black placeholder:text-gray-500 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+          className="w-full bg-transparent border-b border-[var(--gray-200)] px-1 py-2 pr-10 text-sm text-[var(--ink)] placeholder:text-[var(--gray-400)] focus:border-[var(--ink)] focus:outline-none transition-colors"
         />
         <button
           type="submit"
-          className="absolute right-0 top-0 mr-3 flex h-full items-center text-gray-400 hover:text-gray-600"
+          className="absolute right-0 top-0 mr-1 flex h-full items-center text-[var(--gray-400)] hover:text-[var(--ink)] transition-colors"
           aria-label="Buscar"
         >
           {isLoading ? (
@@ -128,9 +120,8 @@ function WooSearch() {
         </button>
       </form>
 
-      {/* Resultados de búsqueda */}
       {showResults && results.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-lg border border-gray-200 max-h-96 overflow-y-auto z-50">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-sm shadow-lg border border-[var(--gray-200)] max-h-96 overflow-y-auto scrollbar-none z-50">
           {results.map((product) => (
             <Link
               key={product.id}
@@ -139,9 +130,9 @@ function WooSearch() {
                 setShowResults(false);
                 setSearchQuery('');
               }}
-              className="flex items-center gap-4 p-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0"
+              className="flex items-center gap-4 p-3 hover:bg-[var(--gray-50)] transition-colors border-b border-[var(--gray-200)] last:border-b-0"
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-md overflow-hidden bg-gray-100">
+              <div className="flex-shrink-0 w-14 h-14 overflow-hidden bg-[var(--gray-50)]">
                 <img
                   src={product.image}
                   alt={product.altText}
@@ -149,10 +140,10 @@ function WooSearch() {
                 />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">
+                <p className="text-sm font-medium text-[var(--ink)] truncate">
                   {product.title}
                 </p>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-[var(--gray-600)]">
                   {product.priceDisplay}
                 </p>
               </div>
@@ -163,17 +154,16 @@ function WooSearch() {
             onClick={() => {
               setShowResults(false);
             }}
-            className="block w-full text-center py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-200"
+            className="block w-full text-center py-3 text-xs tracking-[0.2em] uppercase font-medium text-[var(--ink)] hover:bg-[var(--gray-50)] transition-colors border-t border-[var(--gray-200)]"
           >
             Ver todos los resultados →
           </Link>
         </div>
       )}
 
-      {/* Sin resultados */}
       {showResults && searchQuery.length >= 2 && results.length === 0 && !isLoading && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-50">
-          <p className="text-sm text-gray-500 text-center">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-sm shadow-lg border border-[var(--gray-200)] p-4 z-50">
+          <p className="text-sm text-[var(--gray-600)] text-center">
             No se encontraron productos para "{searchQuery}"
           </p>
         </div>
@@ -182,88 +172,66 @@ function WooSearch() {
   );
 }
 
-// Mobile Menu
+// Mobile Menu (drawer lateral)
 function WooMobileMenu({
   isOpen,
   onClose,
   categories,
-  SITE_NAME
 }: {
   isOpen: boolean;
   onClose: () => void;
   categories: Category[];
-  SITE_NAME: string;
 }) {
-  const pathname = usePathname();
-
-  // Cerrar menú al cambiar de ruta
-  if (isOpen && pathname) {
-    // Se mantendrá abierto si el usuario lo quiere
-  }
-
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 md:hidden">
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/30"
-        onClick={onClose}
-      />
-
-      {/* Menu Panel */}
-      <div className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full animate-in slide-in-from-left max-w-sm flex-col bg-white shadow-xl">
-        <div className="flex items-center justify-between border-b p-4">
-          <div className="flex items-center gap-2">
-            <Image
-              src="/logo-maison.jpg"
-              alt="Store Maison"
-              width={32}
-              height={32}
-              className="h-8 w-8 object-contain"
-              priority
-            />
-            <span className="text-lg font-semibold">{SITE_NAME}</span>
-          </div>
+      <div className="fixed inset-0 bg-black/40" onClick={onClose} />
+      <div className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full max-w-sm flex-col bg-[var(--paper)] shadow-xl">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--gray-200)]">
+          <Link href="/" onClick={onClose}>
+            <div className="relative w-24 h-12">
+              <Image
+                src="/logo-maison.png"
+                alt="Maison"
+                width={96}
+                height={48}
+                className="h-full w-full object-contain invert"
+                priority
+              />
+            </div>
+          </Link>
           <button
             onClick={onClose}
-            className="flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors"
+            className="flex h-10 w-10 items-center justify-center text-[var(--ink)]"
             aria-label="Cerrar menú"
           >
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <XMarkIcon className="h-6 w-6" />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4">
-          {/* Search in mobile */}
-          <div className="mb-6">
-            <WooSearch />
-          </div>
-
-          {/* Navigation */}
-          <nav className="flex flex-col space-y-4">
+        <div className="flex-1 overflow-y-auto scrollbar-none px-6 py-6">
+          <nav className="flex flex-col">
             <Link
               href="/"
               onClick={onClose}
-              className="border-b border-gray-100 py-3 text-lg font-medium text-gray-900 hover:text-gray-600"
+              className="border-b border-[var(--gray-200)] py-4 font-moderat text-sm tracking-[0.2em] uppercase text-[var(--ink)] hover:text-[var(--gold)] transition-colors"
             >
               Inicio
             </Link>
             <Link
               href="/search"
               onClick={onClose}
-              className="border-b border-gray-100 py-3 text-lg font-medium text-gray-900 hover:text-gray-600"
+              className="border-b border-[var(--gray-200)] py-4 font-moderat text-sm tracking-[0.2em] uppercase text-[var(--ink)] hover:text-[var(--gold)] transition-colors"
             >
-              Ver Productos
+              Catálogo
             </Link>
             {categories.map((item) => (
               <Link
                 key={item.path}
                 href={item.path}
                 onClick={onClose}
-                className="border-b border-gray-100 py-3 text-lg font-medium text-gray-900 hover:text-gray-600"
+                className="border-b border-[var(--gray-200)] py-4 font-moderat text-sm tracking-[0.2em] uppercase text-[var(--ink)] hover:text-[var(--gold)] transition-colors"
               >
                 {item.title}
               </Link>
@@ -275,82 +243,113 @@ function WooMobileMenu({
   );
 }
 
-// Main Client Component
-export function WooNavbarClient({ categories, SITE_NAME }: WooNavbarClientProps) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+/**
+ * Estructura LV-inspired para Maison:
+ *
+ * ┌─────────────────────────────────────────────────────────────────┐
+ * │ [top utility bar — fino, oculto en scroll]                     │  ← 32px, tracking ancho
+ * │ Envíos insured a Colombia · Asesoría personal                  │
+ * ├─────────────────────────────────────────────────────────────────┤
+ * │ [main nav — sticky transparente → sólido en scroll]            │  ← 72px desktop / 64px mobile
+ * │  [☰ mobile]            [LOGO]              [search] [cart]      │
+ * │                        Productos ▾  Categorías ▾                │
+ * └─────────────────────────────────────────────────────────────────┘
+ *
+ * Comportamiento:
+ * - Top bar desaparece al hacer scroll (sticky más limpio)
+ * - Main bar: fondo transparente al top, fondo blanco + hairline border al scroll
+ * - Logo: invertido (oscuro) cuando fondo claro, normal cuando scrolled
+ * - Menú categorías: click abre dropdown mega-menu (LV-style)
+ */
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+export function WooNavbarClient({ categories }: WooNavbarClientProps) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled] = useState(false); // placeholder — actualmente el header siempre es transparente
+
+  // Si querés sumar un estado sólido al scrollear, reemplazá este placeholder
+  // por el useEffect comentado abajo y volvé el nav al ternario con `isScrolled`
+  // + invertir el logo cuando aplique.
+  //
+  // useEffect(() => {
+  //   const handleScroll = () => setIsScrolled(window.scrollY > 10);
+  //   window.addEventListener('scroll', handleScroll, { passive: true });
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, []);
 
   return (
     <>
-      <nav className={`flex items-center justify-between border-b backdrop-blur-sm p-4 lg:px-6 transition-all duration-300 fixed top-0 left-0 right-0 z-50 ${
-        isScrolled
-          ? 'border-gray-700 bg-gray-900/95 shadow-lg'
-          : 'border-transparent bg-transparent shadow-none'
-      }`}>
-        {/* Mobile Menu Button */}
-        <div className="block flex-none md:hidden">
-          <MobileMenuButton onClick={() => setIsMobileMenuOpen(true)} />
+      {/* ============ TOP UTILITY BAR (full transparente, se oculta al scroll) ============ */}
+      <div
+        className={`fixed top-0 left-0 right-0 z-50 bg-transparent transition-transform duration-300 ${
+          isScrolled ? '-translate-y-full' : 'translate-y-0'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between font-moderat text-[10px] tracking-[0.25em] uppercase text-white">
+          <span className="hidden sm:inline">Envíos insured · Toda Colombia</span>
+          <span className="sm:hidden">Maison Joyería</span>
+          <span className="hidden md:inline">Asesoría personal sin costo · WhatsApp</span>
+          <span className="md:hidden">Colombia 🇨🇴</span>
         </div>
+      </div>
 
-        <div className="flex w-full items-center">
-          {/* Logo + Categories */}
-          <div className="flex w-full md:w-1/3">
+      {/* ============ MAIN NAV (sticky, siempre full transparente, top-0) ============ */}
+      <nav className="fixed left-0 right-0 z-40 top-0 bg-transparent">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 md:h-20 relative">
+
+            {/* Left: Mobile menu (mobile) / Categorías menu (desktop) */}
+            <div className="flex items-center">
+              {/* Mobile: hamburguesa */}
+              <div className="md:hidden">
+                <MobileMenuButton onClick={() => setIsMobileMenuOpen(true)} />
+              </div>
+
+              {/* Desktop: Menú categorías a la izquierda */}
+              <div className="hidden md:flex items-center gap-8 lg:gap-10">
+                <Link
+                  href="/search"
+                  className="font-moderat text-xs tracking-[0.2em] uppercase text-[var(--ink)] hover:text-[var(--gold)] transition-colors duration-300"
+                >
+                  Catálogo
+                </Link>
+                <CategoryDropdown categories={categories} />
+              </div>
+            </div>
+
+            {/* Logo — centrado absoluto, 2x más grande, siempre invertido (oscuro) */}
             <Link
               href="/"
-              prefetch={true}
-              className="mr-2 flex w-full items-center justify-center md:w-auto lg:mr-6"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              aria-label="Maison — Inicio"
             >
-              <div className="flex h-12 w-12 md:h-16 md:w-16 flex-none items-center justify-center">
+              <div className="relative w-64 h-20 md:w-80 md:h-24">
                 <Image
-                  src="/logo-maison.jpg"
-                  alt="Store Maison"
-                  width={64}
-                  height={64}
-                  className="h-full w-full object-contain"
+                  src="/logo-maison.png"
+                  alt="Maison"
+                  width={320}
+                  height={96}
+                  className="h-full w-full object-contain invert"
                   priority
                 />
               </div>
             </Link>
 
-            {/* Desktop Menu */}
-            <div className="hidden gap-6 text-sm md:flex md:items-center">
-              <Link
-                href="/search"
-                prefetch={true}
-                className="text-gray-300 hover:text-white transition-colors"
-              >
-                Productos
-              </Link>
-              <CategoryDropdown categories={categories} />
+            {/* Right: Search + Cart */}
+            <div className="flex items-center gap-4 md:gap-6">
+              <div className="hidden md:block w-48 lg:w-64">
+                <WooSearch />
+              </div>
+              <CartIcon />
             </div>
-          </div>
-
-          {/* Search */}
-          <div className="hidden justify-center md:flex md:w-1/3 px-4">
-            <WooSearch />
-          </div>
-
-          {/* Cart */}
-          <div className="flex justify-end md:w-1/3">
-            <CartIcon />
           </div>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile drawer */}
       <WooMobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
         categories={categories}
-        SITE_NAME={SITE_NAME}
       />
     </>
   );

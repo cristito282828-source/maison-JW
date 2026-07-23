@@ -202,7 +202,7 @@ export default function FeaturedProducts({ products, categories = [], title = "S
   };
 
   return (
-    <section className="bg-[var(--paper)] py-16 sm:py-20 lg:py-24 overflow-hidden">
+    <section className="bg-transparent py-16 sm:py-20 lg:py-24 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Header: H2 Belleza + eyebrow */}

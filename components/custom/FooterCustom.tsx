@@ -38,13 +38,13 @@ export default function Footer() {
         {/* ============ MASTHEAD — logo sutil + wordmark + eyebrow ============ */}
         <div className="text-center mb-16 md:mb-20">
           <div className="flex flex-col items-center gap-5">
-            <div className="relative w-12 h-12 md:w-14 md:h-14 opacity-70">
+            <div className="relative w-16 h-16 md:w-20 md:h-20">
               <Image
-                src="/logo-maison.jpg"
+                src="/logo-maison.png"
                 alt="Maison"
-                width={56}
-                height={56}
-                className="h-full w-full object-contain grayscale"
+                width={80}
+                height={80}
+                className="h-full w-full object-contain"
               />
             </div>
             <div>
