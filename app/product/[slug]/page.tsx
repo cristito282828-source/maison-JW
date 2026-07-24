@@ -127,8 +127,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       <JsonLdScript data={breadcrumbSchema} />
 
       <WooNavbar />
-      <main id="main-content" className="min-h-screen bg-white pt-36" tabIndex={-1}>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      <main id="main-content" className="min-h-screen bg-white pt-[112px]" tabIndex={-1}>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         {/* Breadcrumb */}
         <nav className="mb-8 text-sm">
           <ol className="flex items-center space-x-2">

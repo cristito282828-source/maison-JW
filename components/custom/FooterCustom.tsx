@@ -1,283 +1,84 @@
+/**
+ * Footer minimal luxury — estilo maisongefaell.
+ *
+ * Solo lo esencial:
+ *   - Logo sutil (invertido para que se vea blanco sobre el fondo dark)
+ *   - WhatsApp CTA centrado, look luxury (no verde comercial)
+ *   - Email + Instagram como links sutiles
+ *   - © + país al pie
+ *
+ * Sin newsletter, sin value props, sin políticas, sin masthead.
+ * El navbar ya tiene el logo + menú, no se duplica.
+ */
+
 'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
-import { Facebook, Instagram, Mail, Phone } from "lucide-react";
-import { newsletterSchema } from '@/lib/validations/forms';
-import { toast } from 'sonner';
+import { Instagram, Phone } from 'lucide-react';
 
 export default function Footer() {
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const result = newsletterSchema.safeParse({ email });
-
-    if (!result.success) {
-      const errorMessage = result.error.issues[0]?.message || 'Error de validación';
-      toast.error(errorMessage);
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    setTimeout(() => {
-      setIsSubmitting(false);
-      toast.success('¡Gracias por suscribirte!');
-      setEmail('');
-    }, 1200);
-  };
-
   return (
     <footer className="bg-[var(--black)] text-white">
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 pt-20 pb-10">
+      <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12 pt-24 pb-12 text-center">
 
-        {/* ============ MASTHEAD — logo sutil + wordmark + eyebrow ============ */}
-        <div className="text-center mb-16 md:mb-20">
-          <div className="flex flex-col items-center gap-5">
-            <div className="relative w-16 h-16 md:w-20 md:h-20">
-              <Image
-                src="/logo-maison.png"
-                alt="Maison"
-                width={80}
-                height={80}
-                className="h-full w-full object-contain"
-              />
-            </div>
-            <div>
-              <p className="font-moderat text-[10px] tracking-[0.35em] uppercase text-white/50 mb-3">
-                Maison · Joyería fina
-              </p>
-              <h2 className="font-belleza text-4xl md:text-5xl font-light tracking-wide text-white">
-                Maison
-              </h2>
-            </div>
+        {/* ============ LOGO SUTIL ============ */}
+        <div className="flex justify-center mb-16">
+          <div className="relative w-24 h-12 md:w-28 md:h-14 opacity-70">
+            <Image
+              src="/logo-maison.png"
+              alt="Maison"
+              width={112}
+              height={56}
+              className="h-full w-full object-contain"
+            />
           </div>
+        </div>
+
+        {/* ============ EYEBROW + TAGLINE ============ */}
+        <p className="font-moderat text-[10px] tracking-[0.35em] uppercase text-white/50 mb-3">
+          Maison
+        </p>
+        <p className="font-belleza text-2xl md:text-3xl font-light tracking-wide text-white/90 leading-snug mb-12">
+          Joyería fina hecha en Colombia.
+        </p>
+
+        {/* ============ WHATSAPP CTA — look luxury (no verde comercial) ============ */}
+        <a
+          href="https://wa.me/971501701872?text=Hola%2C%20me%20interesa%20una%20pieza%20a%20medida"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative inline-flex items-center gap-3 font-moderat text-sm tracking-[0.2em] uppercase text-white border-b border-white pb-2 hover:text-[var(--gold)] hover:border-[var(--gold)] transition-colors duration-500"
+        >
+          <Phone className="h-4 w-4" />
+          <span>Conversemos por WhatsApp</span>
+          <span
+            aria-hidden="true"
+            className="transition-transform duration-500 group-hover:translate-x-1"
+          >
+            →
+          </span>
+        </a>
+
+        {/* ============ INSTAGRAM — único canal social (correo quitado) ============ */}
+        <div className="flex items-center justify-center gap-3 mt-12 font-moderat text-sm">
+          <a
+            href="https://www.instagram.com/maisonjewelco/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+            className="text-white/60 hover:text-[var(--gold)] transition-colors duration-300"
+          >
+            <Instagram className="h-4 w-4" />
+          </a>
         </div>
 
         {/* ============ HAIRLINE GOLD DIVIDER ============ */}
-        <div className="h-px bg-[var(--gold)]/30 mb-12 md:mb-16" />
-
-        {/* ============ GRID 2 COLUMN: MENÚ + CONTACTO ============ */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 mb-16 md:mb-20">
-
-          {/* Menú + Políticas combinados */}
-          <div className="grid grid-cols-2 gap-8">
-            <div>
-              <h4 className="font-moderat text-[10px] tracking-[0.3em] uppercase text-white/50 mb-6">
-                Menú
-              </h4>
-              <ul className="space-y-3 font-moderat text-sm">
-                <li>
-                  <Link
-                    href="/search"
-                    className="text-white/80 hover:text-[var(--gold)] transition-colors duration-300 inline-block relative after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-0 after:bg-[var(--gold)] after:transition-all hover:after:w-full"
-                  >
-                    Catálogo
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/politica-envios"
-                    className="text-white/80 hover:text-[var(--gold)] transition-colors duration-300 inline-block relative after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-0 after:bg-[var(--gold)] after:transition-all hover:after:w-full"
-                  >
-                    Envíos
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/politica-reembolso"
-                    className="text-white/80 hover:text-[var(--gold)] transition-colors duration-300 inline-block relative after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-0 after:bg-[var(--gold)] after:transition-all hover:after:w-full"
-                  >
-                    Reembolso
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/terminos-y-condiciones"
-                    className="text-white/80 hover:text-[var(--gold)] transition-colors duration-300 inline-block relative after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-0 after:bg-[var(--gold)] after:transition-all hover:after:w-full"
-                  >
-                    Términos
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/politica-proteccion-datos"
-                    className="text-white/80 hover:text-[var(--gold)] transition-colors duration-300 inline-block relative after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-0 after:bg-[var(--gold)] after:transition-all hover:after:w-full"
-                  >
-                    Privacidad
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-moderat text-[10px] tracking-[0.3em] uppercase text-white/50 mb-6">
-                Contacto
-              </h4>
-              <ul className="space-y-3 font-moderat text-sm">
-                <li>
-                  <a
-                    href="https://wa.me/971501701872?text=Hola%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white/80 hover:text-[var(--gold)] transition-colors duration-300 inline-block relative after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-0 after:bg-[var(--gold)] after:transition-all hover:after:w-full"
-                  >
-                    WhatsApp
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="mailto:shoescompany0101@gmail.com"
-                    className="text-white/80 hover:text-[var(--gold)] transition-colors duration-300 inline-block relative after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-0 after:bg-[var(--gold)] after:transition-all hover:after:w-full"
-                  >
-                    Correo
-                  </a>
-                </li>
-                <li className="flex items-center gap-3 pt-1">
-                  <a
-                    href="https://www.instagram.com/store777"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Instagram"
-                    className="text-white/60 hover:text-[var(--gold)] transition-colors duration-300"
-                  >
-                    <Instagram className="h-4 w-4" />
-                  </a>
-                  <a
-                    href="https://www.facebook.com/store777"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Facebook"
-                    className="text-white/60 hover:text-[var(--gold)] transition-colors duration-300"
-                  >
-                    <Facebook className="h-4 w-4" />
-                  </a>
-                </li>
-              </ul>
-              <p className="font-moderat text-xs text-white/50 mt-6 leading-relaxed">
-                +971 50 170 1872<br />
-                shoescompany0101@gmail.com
-              </p>
-            </div>
-          </div>
-
-          {/* WhatsApp CTA — brand-standard green, refinado */}
-          <div className="flex flex-col justify-between">
-            <div>
-              <p className="font-moderat text-[10px] tracking-[0.3em] uppercase text-white/50 mb-6">
-                Atención personalizada
-              </p>
-              <p className="font-belleza text-2xl md:text-3xl font-light text-white leading-snug mb-8">
-                ¿Buscás algo especial? Conversemos sobre una pieza a medida.
-              </p>
-              <a
-                href="https://wa.me/971501701872?text=Hola%2C%20me%20interesa%20una%20pieza%20a%20medida"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative inline-flex items-center gap-3 px-5 py-3 bg-[#0F5E4C] hover:bg-[#0B4A3C] transition-colors font-moderat font-medium overflow-hidden"
-              >
-                {/* Sparkles dorados fijos — 4 puntos en posiciones del botón */}
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 200 40"
-                  className="pointer-events-none absolute inset-0 w-full h-full"
-                  preserveAspectRatio="none"
-                >
-                  {/* Sparkle 1 — top-left */}
-                  <path
-                    d="M14 8 L15 11 L18 12 L15 13 L14 16 L13 13 L10 12 L13 11 Z"
-                    fill="white"
-                    className="sparkle-spark"
-                    style={{ animationDelay: '0s' }}
-                  />
-                  {/* Sparkle 2 — top-right */}
-                  <path
-                    d="M186 6 L186.8 8.2 L189 9 L186.8 9.8 L186 12 L185.2 9.8 L183 9 L185.2 8.2 Z"
-                    fill="white"
-                    className="sparkle-spark"
-                    style={{ animationDelay: '0.7s' }}
-                  />
-                  {/* Sparkle 3 — bottom-left */}
-                  <path
-                    d="M22 28 L22.7 30 L25 30.7 L22.7 31.4 L22 33.4 L21.3 31.4 L19 30.7 L21.3 30 Z"
-                    fill="white"
-                    className="sparkle-spark"
-                    style={{ animationDelay: '1.4s' }}
-                  />
-                  {/* Sparkle 4 — bottom-right */}
-                  <path
-                    d="M178 24 L179 26.5 L181.5 27.5 L179 28.5 L178 31 L177 28.5 L174.5 27.5 L177 26.5 Z"
-                    fill="white"
-                    className="sparkle-spark"
-                    style={{ animationDelay: '2.1s' }}
-                  />
-                </svg>
-                <Phone className="h-4 w-4 text-white relative" />
-                <span className="text-white text-sm tracking-wider relative">Escribinos por WhatsApp</span>
-              </a>
-            </div>
-
-            {/* Value props — bullets luxury */}
-            <ul className="font-moderat text-xs text-white/60 mt-12 space-y-2">
-              <li className="flex items-center gap-3">
-                <span className="w-1 h-1 bg-[var(--gold)] rounded-full" />
-                Envíos insured a toda Colombia
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="w-1 h-1 bg-[var(--gold)] rounded-full" />
-                Hecho a mano en oro y plata
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="w-1 h-1 bg-[var(--gold)] rounded-full" />
-                Asesoría personal sin costo
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* ============ NEWSLETTER — banda horizontal con underline-only input ============ */}
-        <div className="border-t border-white/10 pt-12 mb-12">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
-            <div className="md:col-span-5">
-              <p className="font-moderat text-[10px] tracking-[0.3em] uppercase text-white/50 mb-3">
-                Newsletter
-              </p>
-              <h3 className="font-belleza text-2xl md:text-3xl font-light text-white leading-snug">
-                Recibí novedades y lanzamientos antes que nadie.
-              </h3>
-            </div>
-            <form
-              onSubmit={handleNewsletterSubmit}
-              className="md:col-span-7 flex items-center gap-4 border-b border-white/30 pb-2 focus-within:border-[var(--gold)] transition-colors"
-            >
-              <Mail className="h-4 w-4 text-white/50 flex-shrink-0" />
-              <input
-                type="email"
-                placeholder="Su e-mail"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={isSubmitting}
-                className="flex-1 bg-transparent text-white placeholder:text-white/40 font-moderat text-sm focus:outline-none disabled:opacity-50"
-              />
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                aria-label="Suscribir"
-                className="font-moderat text-sm tracking-[0.2em] uppercase text-white hover:text-[var(--gold)] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? '...' : 'Suscribir →'}
-              </button>
-            </form>
-          </div>
-        </div>
+        <div className="h-px bg-[var(--gold)]/30 my-16" />
 
         {/* ============ BOTTOM STRIP ============ */}
-        <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 font-moderat text-xs text-white/40">
-          <p>© {new Date().getFullYear()} Maison · Todos los derechos reservados</p>
+        <div className="flex flex-col gap-2 font-moderat text-[10px] tracking-[0.25em] uppercase text-white/40">
+          <p>© {new Date().getFullYear()} Maison</p>
           <p>Colombia 🇨🇴</p>
         </div>
       </div>

@@ -384,25 +384,49 @@ export function ProductDescriptionWoo({ product }: ProductDescriptionWooProps) {
       </div>
 
       {/* Botón de compra */}
-      <div className="sticky bottom-0 bg-white py-4 border-t border-gray-200">
-        <button
-          onClick={handleAddToCart}
-          disabled={currentStockStatus === 'OUT_OF_STOCK' || isAdding}
-          className={`w-full py-4 px-8 rounded-lg font-moderat text-lg tracking-wide uppercase transition-all duration-300 border-2 ${
-            currentStockStatus === 'OUT_OF_STOCK' || isAdding
-              ? 'bg-gray-400 text-gray-200 border-gray-400 cursor-not-allowed'
-              : 'bg-[#101828] text-white border-[#101828] hover:bg-white hover:text-[#101828] shadow-md hover:shadow-xl'
-          }`}
-        >
-          {isAdding ? 'Agregando...' : currentStockStatus === 'OUT_OF_STOCK' ? 'Agotado' : 'Agregar al Carrito'}
-        </button>
+      <div className="sticky bottom-0 bg-white py-6 border-t border-[var(--gray-200)]">
+        <div className="relative">
+          {/* Marco de cuadro: 4 esquinas doradas estilo membrete (igual que el carrusel) */}
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+          >
+            <span className="absolute -top-px -left-px w-3 h-3 border-t border-l border-[var(--gold)]" />
+            <span className="absolute -top-px -right-px w-3 h-3 border-t border-r border-[var(--gold)]" />
+            <span className="absolute -bottom-px -left-px w-3 h-3 border-b border-l border-[var(--gold)]" />
+            <span className="absolute -bottom-px -right-px w-3 h-3 border-b border-r border-[var(--gold)]" />
+          </span>
 
-        <div className="mt-4 text-center">
+          <button
+            onClick={handleAddToCart}
+            disabled={currentStockStatus === 'OUT_OF_STOCK' || isAdding}
+            className={`group w-full py-5 px-8 font-moderat text-sm tracking-[0.2em] uppercase transition-all duration-500 border ${
+              currentStockStatus === 'OUT_OF_STOCK' || isAdding
+                ? 'bg-[var(--gray-100)] text-[var(--gray-400)] border-[var(--gray-200)] cursor-not-allowed'
+                : 'bg-[var(--ink)] text-white border-[var(--ink)] hover:bg-white hover:text-[var(--ink)]'
+            }`}
+          >
+            <span className="inline-flex items-center gap-3">
+              {isAdding ? 'Agregando...' : currentStockStatus === 'OUT_OF_STOCK' ? 'Agotado' : 'Agregar al Carrito'}
+              {currentStockStatus !== 'OUT_OF_STOCK' && !isAdding && (
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-500 group-hover:translate-x-1"
+                >
+                  →
+                </span>
+              )}
+            </span>
+          </button>
+        </div>
+
+        <div className="mt-6 text-center">
           <Link
             href="/search"
-            className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 transition-colors"
+            className="group inline-flex items-center gap-2 font-moderat text-xs tracking-[0.2em] uppercase text-[var(--gray-600)] hover:text-[var(--ink)] transition-colors duration-300"
           >
-            ← Continuar comprando
+            <span aria-hidden="true" className="transition-transform group-hover:-translate-x-1">←</span>
+            Continuar comprando
           </Link>
         </div>
       </div>

@@ -11,7 +11,6 @@ interface FormData {
   telefono: string;
   direccion: string;
   ciudad: string;
-  codigoPostal: string;
   region: string;
   metodoPago: string;
 }
@@ -24,7 +23,6 @@ export default function CheckoutPage() {
     telefono: '',
     direccion: '',
     ciudad: '',
-    codigoPostal: '',
     region: '',
     metodoPago: 'transferencia'
   });
@@ -60,7 +58,7 @@ export default function CheckoutPage() {
     normalizedPhoneNumber = `+${normalizedPhoneNumber}`;
 
     // Construir mensaje simplificado para evitar problemas con WhatsApp
-    let message = '*NUEVO PEDIDO - Ejemplo de Tienda*%0A%0A';
+    let message = '*NUEVO PEDIDO - Maison Joyería*%0A%0A';
     message += '*DATOS DEL CLIENTE*%0A';
     message += `Nombre: ${formData.nombre}%0A`;
     message += `Email: ${formData.email}%0A`;
@@ -68,7 +66,7 @@ export default function CheckoutPage() {
 
     message += '*DIRECCION DE ENVIO*%0A';
     message += `${formData.direccion}, ${formData.ciudad}%0A`;
-    message += `Region: ${formData.region}%0A%0A`;
+    message += `Departamento: ${formData.region}%0A%0A`;
 
     message += '*PRODUCTOS*%0A';
     cart.contents.nodes.forEach((item, index) => {
@@ -80,7 +78,7 @@ export default function CheckoutPage() {
     });
 
     message += `%0A*TOTAL: ${cart.total}*%0A`;
-    message += `Pago: ${formData.metodoPago === 'transferencia' ? 'Transferencia' : 'Webpay'}%0A%0A`;
+    message += `Pago: ${formData.metodoPago === 'transferencia' ? 'Transferencia bancaria' : 'Nequi/Daviplata'}%0A%0A`;
     message += 'Por favor confirmar mi pedido. Gracias!';
 
     // Abrir WhatsApp directamente sin encoding adicional
@@ -221,7 +219,7 @@ export default function CheckoutPage() {
                       onChange={handleInputChange}
                       required
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-700 focus:border-transparent"
-                      placeholder="+56 9 1234 5678"
+                      placeholder="+57 3XX XXX XXXX"
                     />
                   </div>
                 </div>
@@ -264,36 +262,51 @@ export default function CheckoutPage() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Código Postal
+                        Departamento *
                       </label>
-                      <input
-                        type="text"
-                        name="codigoPostal"
-                        value={formData.codigoPostal}
+                      <select
+                        name="region"
+                        value={formData.region}
                         onChange={handleInputChange}
+                        required
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-700 focus:border-transparent"
-                        placeholder="0000000"
-                      />
+                      >
+                        <option value="">Selecciona un departamento</option>
+                        <option value="Amazonas">Amazonas</option>
+                        <option value="Antioquia">Antioquia</option>
+                        <option value="Arauca">Arauca</option>
+                        <option value="Atlántico">Atlántico</option>
+                        <option value="Bogotá D.C.">Bogotá D.C.</option>
+                        <option value="Bolívar">Bolívar</option>
+                        <option value="Boyacá">Boyacá</option>
+                        <option value="Caldas">Caldas</option>
+                        <option value="Caquetá">Caquetá</option>
+                        <option value="Casanare">Casanare</option>
+                        <option value="Cauca">Cauca</option>
+                        <option value="Cesar">Cesar</option>
+                        <option value="Chocó">Chocó</option>
+                        <option value="Córdoba">Córdoba</option>
+                        <option value="Cundinamarca">Cundinamarca</option>
+                        <option value="Guainía">Guainía</option>
+                        <option value="Guaviare">Guaviare</option>
+                        <option value="Huila">Huila</option>
+                        <option value="La Guajira">La Guajira</option>
+                        <option value="Magdalena">Magdalena</option>
+                        <option value="Meta">Meta</option>
+                        <option value="Nariño">Nariño</option>
+                        <option value="Norte de Santander">Norte de Santander</option>
+                        <option value="Putumayo">Putumayo</option>
+                        <option value="Quindío">Quindío</option>
+                        <option value="Risaralda">Risaralda</option>
+                        <option value="San Andrés y Providencia">San Andrés y Providencia</option>
+                        <option value="Santander">Santander</option>
+                        <option value="Sucre">Sucre</option>
+                        <option value="Tolima">Tolima</option>
+                        <option value="Valle del Cauca">Valle del Cauca</option>
+                        <option value="Vaupés">Vaupés</option>
+                        <option value="Vichada">Vichada</option>
+                      </select>
                     </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Región *
-                    </label>
-                    <select
-                      name="region"
-                      value={formData.region}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-700 focus:border-transparent"
-                    >
-                      <option value="">Selecciona una región</option>
-                      <option value="Región Metropolitana">Región Metropolitana</option>
-                      <option value="Región de Valparaíso">Región de Valparaíso</option>
-                      <option value="Región del Biobío">Región del Biobío</option>
-                      <option value="Región de Araucanía">Región de Araucanía</option>
-                      <option value="Otra región">Otra región</option>
-                    </select>
                   </div>
                 </div>
               </div>
@@ -319,12 +332,12 @@ export default function CheckoutPage() {
                     <input
                       type="radio"
                       name="metodoPago"
-                      value="webpay"
-                      checked={formData.metodoPago === 'webpay'}
+                      value="nequi"
+                      checked={formData.metodoPago === 'nequi'}
                       onChange={handleInputChange}
                       className="h-4 w-4 text-green-700 focus:ring-green-700"
                     />
-                    <span className="ml-3 font-medium text-gray-900">Webpay</span>
+                    <span className="ml-3 font-medium text-gray-900">Nequi / Daviplata</span>
                   </label>
                 </div>
               </div>
@@ -378,7 +391,7 @@ export default function CheckoutPage() {
                 {cart.subtotal && (
                   <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
                     <p className="text-sm text-green-800">
-                      💚 Envío gratis en pedidos superiores a $80.000 CLP
+                      💚 Envío gratis a toda Colombia
                     </p>
                   </div>
                 )}
