@@ -121,7 +121,7 @@ export default function Footer() {
               <ul className="space-y-3 font-moderat text-sm">
                 <li>
                   <a
-                    href="https://wa.me/573232182386?text=Hola%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n"
+                    href="https://wa.me/971501701872?text=Hola%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-white/80 hover:text-[var(--gold)] transition-colors duration-300 inline-block relative after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-0 after:bg-[var(--gold)] after:transition-all hover:after:w-full"
@@ -159,7 +159,7 @@ export default function Footer() {
                 </li>
               </ul>
               <p className="font-moderat text-xs text-white/50 mt-6 leading-relaxed">
-                +57 323 218 2386<br />
+                +971 50 170 1872<br />
                 shoescompany0101@gmail.com
               </p>
             </div>
@@ -175,13 +175,49 @@ export default function Footer() {
                 ¿Buscás algo especial? Conversemos sobre una pieza a medida.
               </p>
               <a
-                href="https://wa.me/573232182386?text=Hola%2C%20me%20interesa%20una%20pieza%20a%20medida"
+                href="https://wa.me/971501701872?text=Hola%2C%20me%20interesa%20una%20pieza%20a%20medida"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-5 py-3 bg-[#25D366] hover:bg-[#1ebe5b] transition-colors font-moderat font-medium"
+                className="group relative inline-flex items-center gap-3 px-5 py-3 bg-[#0F5E4C] hover:bg-[#0B4A3C] transition-colors font-moderat font-medium overflow-hidden"
               >
-                <Phone className="h-4 w-4 text-white" />
-                <span className="text-white text-sm tracking-wider">Escribinos por WhatsApp</span>
+                {/* Sparkles dorados fijos — 4 puntos en posiciones del botón */}
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 200 40"
+                  className="pointer-events-none absolute inset-0 w-full h-full"
+                  preserveAspectRatio="none"
+                >
+                  {/* Sparkle 1 — top-left */}
+                  <path
+                    d="M14 8 L15 11 L18 12 L15 13 L14 16 L13 13 L10 12 L13 11 Z"
+                    fill="white"
+                    className="sparkle-spark"
+                    style={{ animationDelay: '0s' }}
+                  />
+                  {/* Sparkle 2 — top-right */}
+                  <path
+                    d="M186 6 L186.8 8.2 L189 9 L186.8 9.8 L186 12 L185.2 9.8 L183 9 L185.2 8.2 Z"
+                    fill="white"
+                    className="sparkle-spark"
+                    style={{ animationDelay: '0.7s' }}
+                  />
+                  {/* Sparkle 3 — bottom-left */}
+                  <path
+                    d="M22 28 L22.7 30 L25 30.7 L22.7 31.4 L22 33.4 L21.3 31.4 L19 30.7 L21.3 30 Z"
+                    fill="white"
+                    className="sparkle-spark"
+                    style={{ animationDelay: '1.4s' }}
+                  />
+                  {/* Sparkle 4 — bottom-right */}
+                  <path
+                    d="M178 24 L179 26.5 L181.5 27.5 L179 28.5 L178 31 L177 28.5 L174.5 27.5 L177 26.5 Z"
+                    fill="white"
+                    className="sparkle-spark"
+                    style={{ animationDelay: '2.1s' }}
+                  />
+                </svg>
+                <Phone className="h-4 w-4 text-white relative" />
+                <span className="text-white text-sm tracking-wider relative">Escribinos por WhatsApp</span>
               </a>
             </div>
 

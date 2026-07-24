@@ -47,7 +47,7 @@ export default function CheckoutPage() {
 
     setIsSubmitting(true);
 
-    const rawPhoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || '3232182386';
+    const rawPhoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || '971501701872';
     const digitsOnly = rawPhoneNumber.replace(/[^\d]/g, '');
 
     let normalizedPhoneNumber = digitsOnly;

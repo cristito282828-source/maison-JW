@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { WooNavbar } from '@/components/layout/navbar/woo-navbar';
 import FooterCustom from '@/components/custom/FooterCustom';
+import VideoSlider from '@/components/custom/VideoSlider';
 import FeaturedProducts from '@/components/custom/FeaturedProducts';
 import SplashScreen from '@/components/custom/SplashScreen';
 import HeaderBanner from '@/components/custom/HeaderBanner';
@@ -79,7 +80,7 @@ export default async function HomePage({
     console.error('Error fetching featured products for home:', err);
   }
 
-  // Traer categorías para mostrar en FeaturedProducts (pill row) + sección Colecciones
+  // Traer categorías para mostrar en el pill row del FeaturedProducts
   let featuredCategories: { name: string; slug: string }[] = [];
   try {
     const collections = await getCollections();
@@ -99,9 +100,18 @@ export default async function HomePage({
   return (
     <>
       <WooNavbar />
-      <main id="main-content" className="min-h-screen bg-transparent pt-[112px]">
+      <main id="main-content" className="min-h-screen bg-transparent">
+
+        {/* ============ VIDEO SLIDER — primer componente, full-width pegado al navbar ============ */}
+        <VideoSlider
+          videos={[
+            { src: '/videos/video-1.mp4' },
+            { src: '/videos/video-2.mp4' },
+          ]}
+        />
 
         {/* ============ HERO — split 50/50 (server component) ============ */}
+        <div className="pt-[112px]">
         {heroProduct && (
           <section className="grid grid-cols-1 lg:grid-cols-2 min-h-[80vh]">
             <div className="relative aspect-[4/5] lg:aspect-auto lg:min-h-[80vh] bg-transparent">
@@ -136,36 +146,7 @@ export default async function HomePage({
             </div>
           </section>
         )}
-
-        {/* ============ HEADER BANNER — cover de video (entre Hero y Colecciones) ============ */}
-        <HeaderBanner />
-
-        {/* ============ COLECCIONES — grid 2/3 col ============ */}
-        {featuredCategories.length > 0 && (
-          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-            <div className="text-center mb-10 lg:mb-14">
-              <p className="font-moderat text-xs tracking-[0.25em] uppercase text-[var(--gray-600)] mb-3">
-                Maison
-              </p>
-              <h2 className="font-belleza text-3xl md:text-4xl text-[var(--ink)] font-light tracking-wide">
-                Colecciones
-              </h2>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-              {featuredCategories.map((c) => (
-                <Link
-                  key={c.slug}
-                  href={`/search/${c.slug}`}
-                  className="group border border-[var(--gray-200)] bg-white p-10 md:p-12 text-center transition-colors duration-300 hover:border-[var(--gold)]"
-                >
-                  <span className="font-moderat text-sm tracking-[0.2em] uppercase text-[var(--ink)] group-hover:text-[var(--gold)] transition-colors duration-300">
-                    {c.name}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
+        </div>
 
         {/* ============ FEATURED PRODUCTS — "Selección" ============ */}
         {featured.length > 0 && (
